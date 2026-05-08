@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wulan Store — Perlengkapan Kantor & Sekolah</title>
+
+    <!-- ============================================
+         FONT AWESOME - Untuk ikon di seluruh website
+         ============================================ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ============================================
+         GOOGLE FONTS - DM Serif Display (judul) &
+         Plus Jakarta Sans (teks body)
+         ============================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- ============================================
+         CSS UTAMA - Semua style website ada di sini
+         ============================================ -->
+    <style>
+        /* ============================
+           CSS VARIABLES (Variabel Warna)
+           Memudahkan perubahan tema
+           ============================ */
+        :root {
+            --navy: #0F2557;
+            --navy-dark: #091840;
+            --navy-light: #1A3A6B;
+            --white: #FFFFFF;
+            --off-white: #F5F7FA;
+            --light-gray: #E8ECF3;
+            --mid-gray: #8B95A5;
+            --dark-gray: #3D4A5C;
+            --gold: #C9A84C;
+            --gold-light: #E2C87A;
+            --blue-accent: #5B9BD5;
+            --shadow-sm: 0 2px 8px rgba(15,37,87,0.06);
+            --shadow-md: 0 8px 30px rgba(15,37,87,0.10);
+            --shadow-lg: 0 16px 50px rgba(15,37,87,0.15);
+            --radius: 12px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================
+           RESET CSS - Menghapus margin/
+           padding bawaan browser
+           ============================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ============================
+           BASE - Style dasar seluruh halaman
+           ============================ */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--off-white);
+            color: var(--dark-gray);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ============================
+           SCROLLBAR CUSTOM - Scrollbar
+           bertema navy & gold
+           ============================ */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--navy-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-light);
+        }
+
+        /* ============================
+           LOADING SCREEN - Animasi
+           loading saat halaman dibuka
+           ============================ */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--navy-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        /* Lingkaran putar di loading screen */
+        .loading-spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(201,168,76,0.2);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: var(--gold);
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* ============================
+           NAVBAR - Menu navigasi tetap
+           di atas halaman (fixed)
+           ============================ */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition);
+        }
+        /* Efek glassmorphism saat di-scroll */
+        .navbar.scrolled {
+            background: rgba(15, 37, 87, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 10px 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        /* Logo dengan ikon dan teks */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+        }
+        .logo-text span {
+            color: var(--gold);
+        }
+        /* Menu navigasi */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--white);
+            background: rgba(255,255,255,0.1);
+        }
+        /* Tombol hamburger untuk mobile */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px; height: 2.5px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        /* Animasi hamburger saat aktif */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ============================
+           CONTAINER - Pembatas lebar
+           konten agar rapi di desktop
+           ============================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ============================
+           HERO SECTION - Banner utama
+           di bagian atas halaman
+           ============================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 40%, var(--navy-light) 100%);
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+        /* Bentuk geometris dekoratif di hero */
+        .hero-shape {
+            position: absolute;
+            border-radius: 12px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+        .shape-1 {
+            width: 120px; height: 120px;
+            background: var(--gold);
+            top: 15%; left: 8%;
+            animation: floatShape 18s ease-in-out infinite;
+        }
+        .shape-2 {
+            width: 80px; height: 80px;
+            background: var(--blue-accent);
+            top: 25%; right: 12%;
+            border-radius: 50%;
+            animation: floatShape 14s ease-in-out infinite reverse;
+        }
+        .shape-3 {
+            width: 200px; height: 60px;
+            background: var(--gold-light);
+            bottom: 20%; left: 5%;
+            animation: floatShape 20s ease-in-out infinite 2s;
+        }
+        .shape-4 {
+            width: 60px; height: 60px;
+            background: var(--white);
+            top: 60%; right: 20%;
+            animation: floatShape 16s ease-in-out infinite 4s;
+        }
+        .shape-5 {
+            width: 150px; height: 150px;
+            background: var(--blue-accent);
+            bottom: 10%; right: 5%;
+            border-radius: 50%;
+            animation: floatShape 22s ease-in-out infinite 1s;
+        }
+        .shape-6 {
+            width: 40px; height: 100px;
+            background: var(--gold);
+            top: 10%; right: 35%;
+            animation: floatShape 15s ease-in-out infinite 3s;
+        }
+        /* Animasi mengambang untuk bentuk dekoratif */
+        @keyframes floatShape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-25px) rotate(5deg); }
+            66% { transform: translateY(15px) rotate(-3deg); }
+        }
+        /* Overlay gradien untuk kedalaman */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(91,155,213,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+        /* Badge kecil di atas judul */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201,168,76,0.15);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold-light);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.5rem;
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .hero h1 .highlight {
+            color: var(--gold);
+            position: relative;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 36px;
+            max-width: 520px;
+            font-weight: 300;
+        }
+        /* Tombol CTA (Call to Action) utama */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--navy-dark);
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201,168,76,0.45);
+        }
+        .btn-primary i {
+            transition: transform 0.3s ease;
+        }
+        .btn-primary:hover i {
+            transform: translateX(4px);
+        }
+        /* Baris statistik di hero */
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-stat h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+        }
+        .hero-stat p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        /* ============================
+           SECTION COMMON - Style yang
+           dipakai di semua section
+           ============================ */
+        section {
+            padding: 90px 0;
+        }
+        /* Header/judul section */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        /* Garis aksen gold di atas judul */
+        .section-header::before {
+            content: '';
+            display: block;
+            width: 50px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            margin: 0 auto 16px;
+            border-radius: 2px;
+        }
+        .section-header h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.3rem;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        .section-header p {
+            color: var(--mid-gray);
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ============================
+           PRODUK SECTION - Area
+           menampilkan daftar produk
+           ============================ */
+        .produk-section {
+            background: var(--white);
+        }
+        /* Kotak pencarian + filter */
+        .search-filter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        /* Input pencarian dengan efek glassmorphism */
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--off-white);
+            color: var(--dark-gray);
+            transition: var(--transition);
+            outline: none;
+        }
+        .search-box input:focus {
+            border-color: var(--gold);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(201,168,76,0.12);
+        }
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--mid-gray);
+            font-size: 0.95rem;
+        }
+        /* Pill/tombol filter kategori */
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .filter-pill {
+            padding: 8px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--mid-gray);
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .filter-pill:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .filter-pill.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+        /* Grid kartu produk */
+        .produk-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        /* Kartu produk individual */
+        .produk-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+            transition: var(--transition);
+            position: relative;
+        }
+        .produk-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(201,168,76,0.3);
+        }
+        /* Tag kategori di atas gambar */
+        .produk-card .kategori-tag {
+            position: absolute;
+            top: 12px; left: 12px;
+            background: rgba(15,37,87,0.85);
+            backdrop-filter: blur(8px);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 50px;
+            z-index: 2;
+            letter-spacing: 0.3px;
+        }
+        /* Container gambar produk */
+        .produk-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: var(--off-white);
+            position: relative;
+        }
+        .produk-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .produk-card:hover .produk-img img {
+            transform: scale(1.08);
+        }
+        /* Info produk (nama, harga, deskripsi) */
+        .produk-info {
+            padding: 18px;
+        }
+        .produk-info h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .produk-info .harga {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .produk-info .deskripsi {
+            font-size: 0.8rem;
+            color: var(--mid-gray);
+            line-height: 1.5;
+            margin-bottom: 16px;
+            /* Batasi 2 baris dengan ellipsis */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Tombol beli di kartu produk */
+        .btn-beli {
+            width: 100%;
+            padding: 10px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-beli:hover {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+        /* Pesan jika produk tidak ditemukan */
+        .no-result {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--mid-gray);
+        }
+        .no-result i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--light-gray);
+        }
+        .no-result p {
+            font-size: 1.1rem;
+        }
+        /* Animasi masuk untuk kartu produk */
+        .produk-card.reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .produk-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================
+           TENTANG SECTION - Profil
+           singkat tentang MPLB
+           ============================ */
+        .tentang-section {
+            background: var(--off-white);
+        }
+        .tentang-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .tentang-text h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+        .tentang-text p {
+            color: var(--mid-gray);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        /* Daftar fitur/keunggulan */
+        .tentang-features {
+            list-style: none;
+            margin-top: 20px;
+        }
+        .tentang-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .tentang-features li i {
+            color: var(--gold);
+            margin-top: 4px;
+            font-size: 0.85rem;
+        }
+        /* Kartu dekoratif di sisi kanan */
+        .tentang-visual {
+            position: relative;
+        }
+        .tentang-card-main {
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            border-radius: 16px;
+            padding: 40px;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .tentang-card-main::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 120px; height: 120px;
+            background: rgba(201,168,76,0.15);
+            border-radius: 50%;
+        }
+        .tentang-card-main h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .tentang-card-main p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+        }
+        /* Baris statistik di dalam kartu */
+        .tentang-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .tentang-stat-item {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .tentang-stat-item h5 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+        }
+        .tentang-stat-item span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+        /* Kartu kecil melayang di dekorasi */
+        .tentang-card-float {
+            position: absolute;
+            bottom: -20px; left: -20px;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+        }
+        .tentang-card-float .icon-circle {
+            width: 42px; height: 42px;
+            background: rgba(201,168,76,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+        .tentang-card-float p {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+        .tentang-card-float span {
+            font-size: 0.7rem;
+            color: var(--mid-gray);
+        }
+
+        /* ============================
+           VIDEO SECTION - Area video
+           promosi
+           ============================ */
+        .video-section {
+            background: var(--navy-dark);
+            padding: 80px 0;
+        }
+        .video-section .section-header h2 {
+            color: var(--white);
+        }
+        .video-section .section-header p {
+            color: rgba(255,255,255,0.5);
+        }
+        .video-section .section-header::before {
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+        }
+        .video-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 2px solid rgba(201,168,76,0.2);
+            aspect-ratio: 16/9;
+            background: var(--navy);
+        }
+        .video-wrapper video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Overlay jika video gagal dimuat */
+        .video-fallback {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: var(--white);
+            gap: 12px;
+        }
+        .video-fallback i {
+            font-size: 3rem;
+            color: var(--gold);
+        }
+        .video-fallback p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ============================
+           KONTAK SECTION - Informasi
+           kontak dan sosial media
+           ============================ */
+        .kontak-section {
+            background: var(--white);
+        }
+        .kontak-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* Kartu kontak individual */
+        .kontak-card {
+            background: var(--off-white);
+            border-radius: var(--radius);
+            padding: 36px 24px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+        .kontak-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(201,168,76,0.3);
+        }
+        .kontak-card .icon-wrapper {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+        .kontak-card:nth-child(1) .icon-wrapper {
+            background: rgba(37,211,102,0.12);
+            color: #25D366;
+        }
+        .kontak-card:nth-child(2) .icon-wrapper {
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(253,29,29,0.12), rgba(252,176,69,0.12));
+            color: #E1306C;
+        }
+        .kontak-card:nth-child(3) .icon-wrapper {
+            background: rgba(201,168,76,0.12);
+            color: var(--gold);
+        }
+        .kontak-card:hover .icon-wrapper {
+            transform: scale(1.1);
+        }
+        .kontak-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+        .kontak-card p {
+            font-size: 0.85rem;
+            color: var(--mid-gray);
+            margin-bottom: 16px;
+        }
+        .kontak-card a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--navy);
+            text-decoration: none;
+            padding: 8px 18px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .kontak-card a:hover {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        /* ============================
+           FOOTER - Bagian bawah
+           halaman website
+           ============================ */
+        .footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 50px 0 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand .logo {
+            margin-bottom: 14px;
+        }
+        .footer-brand p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            max-width: 320px;
+        }
+        .footer h4 {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .footer-social a {
+            width: 38px; height: 38px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+        /* Copyright di baris paling bawah */
+        .footer-bottom {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* ============================
+           BACK TO TOP - Tombol kembali
+           ke atas halaman
+           ============================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 90px; right: 24px;
+            width: 44px; height: 44px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 900;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+
+        /* ============================
+           MUSIC PLAYER - Tombol musik
+           latar belakang melayang
+           ============================ */
+        .music-btn {
+            position: fixed;
+            bottom: 30px; right: 24px;
+            width: 48px; height: 48px;
+            background: var(--navy);
+            color: var(--gold);
+            border: 2px solid rgba(201,168,76,0.3);
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 900;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .music-btn:hover {
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-color: var(--gold);
+        }
+        /* Efek pulsasi saat musik diputar */
+        .music-btn.playing {
+            animation: musicPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+        }
+
+        /* ============================
+           TOAST NOTIFICATION - Pesan
+           singkat muncul di layar
+           ============================ */
+        .toast-container {
+            position: fixed;
+            top: 90px; right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: var(--white);
+            border-left: 4px solid var(--gold);
+            padding: 14px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: var(--dark-gray);
+            animation: toastIn 0.4s ease forwards;
+            min-width: 260px;
+        }
+        .toast i {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        .toast.removing {
+            animation: toastOut 0.3s ease forwards;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(40px); }
+        }
+
+        /* ============================
+           REVEAL ANIMATION - Animasi
+           muncul saat scroll
+           ============================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================
+           RESPONSIVE TABLET (max-width: 1024px)
+           ============================ */
+        @media (max-width: 1024px) {
+            .produk-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .tentang-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* ============================
+           RESPONSIVE MOBILE (max-width: 768px)
+           ============================ */
+        @media (max-width: 768px) {
+            /* Menu hamburger ditampilkan */
+            .hamburger {
+                display: flex;
+            }
+            /* Menu navigasi menjadi sidebar */
+            .nav-menu {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 280px; height: 100vh;
+                background: var(--navy-dark);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 4px;
+                transition: right 0.4s ease;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            }
+            .nav-menu.open {
+                right: 0;
+            }
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 12px 16px;
+                border-radius: 8px;
+            }
+            /* Overlay gelap saat menu terbuka */
+            .nav-overlay {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 998;
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+            }
+            .nav-overlay.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /* Hero menyesuaikan ukuran */
+            .hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+            .hero h1 {
+                font-size: 2.1rem;
+            }
+            .hero p {
+                font-size: 0.95rem;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .hero-stat h3 {
+                font-size: 1.4rem;
+            }
+
+            /* Grid produk jadi 2 kolom lalu 1 kolom */
+            .produk-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .produk-img {
+                height: 150px;
+            }
+            .produk-info {
+                padding: 12px;
+            }
+            .produk-info h3 {
+                font-size: 0.88rem;
+            }
+            .produk-info .harga {
+                font-size: 0.92rem;
+            }
+            .produk-info .deskripsi {
+                font-size: 0.75rem;
+                -webkit-line-clamp: 2;
+                margin-bottom: 10px;
+            }
+            .btn-beli {
+                padding: 8px;
+                font-size: 0.78rem;
+            }
+
+            /* Kontak grid jadi 1 kolom */
+            .kontak-grid {
+                grid-template-columns: 1fr;
+                max-width: 360px;
+            }
+
+            /* Footer grid jadi 1 kolom */
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            /* Section padding dikurangi */
+            section {
+                padding: 60px 0;
+            }
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ============================
+           RESPONSIVE MOBILE KECIL (max-width: 480px)
+           ============================ */
+        @media (max-width: 480px) {
+            .produk-grid {
+                grid-template-columns: 1fr;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+            .produk-img {
+                height: 200px;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .filter-pills {
+                gap: 6px;
+            }
+            .filter-pill {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ============================
+           PREFERED REDUCED MOTION
+           Untuk pengguna yang memilih
+           kurangi animasi di browser
+           ============================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         LOADING OVERLAY - Muncul pertama kali,
+         menghilang setelah halaman siap
+         ========================================== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Wulan Store</p>
+    </div>
+
+    <!-- ==========================================
+         NAVBAR - Menu navigasi tetap di atas
+         ========================================== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <!-- Logo website -->
+            <a href="#beranda" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="logo-text">Wulan<span>Store</span></div>
+            </a>
+
+            <!-- Menu navigasi (desktop & mobile sidebar) -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#beranda" class="active">Beranda</a></li>
+                <li><a href="#produk">Produk</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+
+            <!-- Tombol hamburger (muncul di mobile) -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Overlay gelap saat menu mobile terbuka -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- ==========================================
+         HERO SECTION - Banner utama halaman
+         ========================================== -->
+    <section class="hero" id="beranda">
+        <!-- Bentuk geometris dekoratif (mengambang) -->
+        <div class="hero-shape shape-1"></div>
+        <div class="hero-shape shape-2"></div>
+        <div class="hero-shape shape-3"></div>
+        <div class="hero-shape shape-4"></div>
+        <div class="hero-shape shape-5"></div>
+        <div class="hero-shape shape-6"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <!-- Badge kecil -->
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    Toko Perlengkapan Kantor Terpercaya
+                </div>
+
+                <!-- Judul utama -->
+                <h1>Solusi Lengkap <span class="highlight">Perlengkapan Kantor</span> & Sekolah</h1>
+
+                <!-- Deskripsi singkat -->
+                <p>Menyediakan berbagai kebutuhan administrasi, alat tulis, elektronik kantor, dan furnitur untuk siswa serta profesional Manajemen Perkantoran.</p>
+
+                <!-- Tombol CTA -->
+                <a href="#produk" class="btn-primary">
+                    Lihat Produk
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+
+                <!-- Statistik singkat -->
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>500+</h3>
+                        <p>Produk Tersedia</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>10K+</h3>
+                        <p>Pelanggan Puas</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>5th</h3>
+                        <p>Pengalaman</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRODUK SECTION - Daftar produk
+         dengan pencarian dan filter
+         ========================================== -->
+    <section class="produk-section" id="produk">
+        <div class="container">
+            <!-- Judul section -->
+            <div class="section-header reveal">
+                <h2>Produk Kami</h2>
+                <p>Temukan perlengkapan kantor dan sekolah berkualitas dengan harga terjangkau</p>
+            </div>
+
+            <!-- Pencarian dan filter kategori -->
+            <div class="search-filter reveal">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari produk..." aria-label="Cari produk">
+                </div>
+                <div class="filter-pills" id="filterPills">
+                    <!-- Tombol filter dibuat oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- Grid kartu produk (diisi oleh JavaScript) -->
+            <div class="produk-grid" id="produkGrid">
+                <!-- Kartu produk akan dimasukkan di sini -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TENTANG SECTION - Profil singkat
+         tentang MPLB / Manajemen Perkantoran
+         ========================================== -->
+    <section class="tentang-section" id="tentang">
+        <div class="container">
+            <!-- Judul section -->
+            <div class="section-header reveal">
+                <h2>Tentang Kami</h2>
+                <p>Mengenal lebih dekat Wulan Store dan dunia Manajemen Perkantoran</p>
+            </div>
+
+            <div class="tentang-grid">
+                <!-- Kolom kiri: teks penjelasan -->
+                <div class="tentang-text reveal">
+                    <h3>Apa Itu Manajemen Perkantoran?</h3>
+                    <p>
+                        Manajemen Perkantoran dan Layanan Bisnis (MPLB) adalah kompetensi keahlian di SMK yang mempelajari tata kelola perkantoran modern, mulai dari pengelolaan dokumen, korespondensi, hingga pengoperasian teknologi kantor.
+                    </p>
+                    <p>
+                        Wulan Store hadir sebagai solusi lengkap untuk memenuhi kebutuhan perlengkapan kantor dan sekolah bagi siswa MPLB maupun profesional di dunia perkantoran.
+                    </p>
+
+                    <!-- Daftar keunggulan -->
+                    <ul class="tentang-features">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Produk berkualitas dengan harga terjangkau
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Stok lengkap untuk kebutuhan administrasi
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Pengiriman cepat ke seluruh Indonesia
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Garansi kepuasan 100% untuk setiap pembelian
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Konsultasi gratis pemilihan perlengkapan kantor
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Kolom kanan: kartu dekoratif -->
+                <div class="tentang-visual reveal">
+                    <div class="tentang-card-main">
+                        <h4>Wulan Store</h4>
+                        <p>Didirikan untuk mendukung kebutuhan siswa dan praktisi Manajemen Perkantoran dengan menyediakan perlengkapan berkualitas tinggi.</p>
+
+                        <!-- Statistik di dalam kartu -->
+                        <div class="tentang-stats">
+                            <div class="tentang-stat-item">
+                                <h5>500+</h5>
+                                <span>Produk</span>
+                            </div>
+                            <div class="tentang-stat-item">
+                                <h5>10K+</h5>
+                                <span>Pelanggan</span>
+                            </div>
+                            <div class="tentang-stat-item">
+                                <h5>5th</h5>
+                                <span>Berpengalaman</span>
+                            </div>
+                            <div class="tentang-stat-item">
+                                <h5>100%</h5>
+                                <span>Garansi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kartu kecil melayang -->
+                    <div class="tentang-card-float">
+                        <div class="icon-circle">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div>
+                            <p>Toko Terpercaya</p>
+                            <span>Sejak 2019</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         VIDEO SECTION - Video promosi
+         ========================================== -->
+    <section class="video-section" id="video">
+        <div class="container">
+            <!-- Judul section -->
+            <div class="section-header reveal">
+                <h2>Video Promosi</h2>
+                <p>Sekilas tentang produk dan layanan Wulan Store</p>
+            </div>
+
+            <!-- Wrapper video -->
+            <div class="video-wrapper reveal">
+                <!-- Video dari folder video/ -->
+                <video controls preload="metadata" id="promoVideo">
+                    <source src="video/video.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+                <!-- Fallback jika video tidak tersedia -->
+                <div class="video-fallback" id="videoFallback" style="display:none;">
+                    <i class="fas fa-film"></i>
+                    <p>Video promosi akan ditampilkan di sini</p>
+                    <span style="font-size:0.75rem; color:rgba(255,255,255,0.35);">Taruh file video di folder video/video-promosi.mp4</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         KONTAK SECTION - Informasi kontak
+         ========================================== -->
+    <section class="kontak-section" id="kontak">
+        <div class="container">
+            <!-- Judul section -->
+            <div class="section-header reveal">
+                <h2>Hubungi Kami</h2>
+                <p>Jangan ragu untuk menghubungi kami kapan saja</p>
+            </div>
+
+            <!-- Grid kartu kontak -->
+            <div class="kontak-grid">
+                <!-- WhatsApp -->
+                <div class="kontak-card reveal">
+                    <div class="icon-wrapper">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp</h3>
+                    <p>+62 856-9331-7219</p>
+                    <a href="https://wa.me/6285693317219" target="_blank" rel="noopener">
+                        <i class="fas fa-paper-plane"></i> Kirim Pesan
+                    </a>
+                </div>
+
+                <!-- Instagram -->
+                <div class="kontak-card reveal">
+                    <div class="icon-wrapper">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h3>Instagram</h3>
+                    <p>@mywull_</p>
+                    <a href="https://www.instagram.com/mywull_?igsh=b2k3dG1ueXF5MWNs" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt"></i> Follow Kami
+                    </a>
+                </div>
+
+                <!-- Email -->
+                <div class="kontak-card reveal">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p>info@mplbstore.com</p>
+                    <a href="mailto:info@mplbstore.com">
+                        <i class="fas fa-paper-plane"></i> Kirim Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER - Bagian bawah website
+         ========================================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolom 1: Brand dan deskripsi -->
+                <div class="footer-brand">
+                    <a href="#beranda" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="logo-text">Wulan<span>Store</span></div>
+                    </a>
+                    <p>Toko perlengkapan kantor dan sekolah terlengkap untuk siswa dan profesional Manajemen Perkantoran. Kualitas terjamin, harga bersahabat.</p>
+                    <!-- Ikon sosial media -->
+                    <div class="footer-social">
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Link cepat -->
+                <div>
+                    <h4>Link Cepat</h4>
+                    <ul class="footer-links">
+                        <li><a href="#beranda">Beranda</a></li>
+                        <li><a href="#produk">Produk</a></li>
+                        <li><a href="#tentang">Tentang Kami</a></li>
+                        <li><a href="#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Kategori produk -->
+                <div>
+                    <h4>Kategori</h4>
+                    <ul class="footer-links">
+                        <li><a href="#produk">Perlengkapan Kantor</a></li>
+                        <li><a href="#produk">Elektronik</a></li>
+                        <li><a href="#produk">Alat Tulis</a></li>
+                        <li><a href="#produk">Furnitur</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Baris copyright -->
+            <div class="footer-bottom">
+                &copy; 2025 Wulan Store. Seluruh hak cipta dilindungi undang-undang.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         TOMBOL BACK TO TOP - Muncul saat scroll
+         ========================================== -->
+    <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ==========================================
+         TOMBOL MUSIK - Putar/jeda musik latar
+         ========================================== -->
+    <button class="music-btn" id="musicBtn" aria-label="Toggle musik latar">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- ==========================================
+         TOAST CONTAINER - Wadah pesan toast
+         ========================================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ==========================================
+         AUDIO MUSIK LATAR - Dari folder musik/
+         ========================================== -->
+    <audio id="bgMusic" loop preload="none">
+        <source src="musik/background.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ==========================================
+         JAVASCRIPT UTAMA - Semua logika website
+         ========================================== -->
+    <script>
+        // ============================================
+        // DATA FALLBACK - Jika database.json gagal
+        // dimuat, data ini yang digunakan
+        // ============================================
+        const fallbackData = [
+            {
+                nama: "Binder Clip Premium",
+                harga: 35000,
+                deskripsi: "Binder clip berkualitas tinggi berbagai ukuran untuk menyimpan dokumen dengan rapi dan aman.",
+                gambar: "gambar/binder.jpg",
+                kategori: "Perlengkapan Kantor"
+            },
+            {
+                nama: "Map Ordner Kertas",
+                harga: 28000,
+                deskripsi: "Map ordner tebal dengan clip kuat, cocok untuk arsip dan penyimpanan dokumen penting.",
+                gambar: "gambar/map.jpg",
+                kategori: "Perlengkapan Kantor"
+            },
+            {
+                nama: "Printer Multifungsi HP",
+                harga: 2850000,
+                deskripsi: "Printer all-in-one print, scan, copy dengan koneksi WiFi dan hasil cetak tajam.",
+                gambar: "gambar/printer.jpg",
+                kategori: "Elektronik"
+            },
+            {
+                nama: "Keyboard Mechanical RGB",
+                harga: 450000,
+                deskripsi: "Keyboard mekanikal dengan switch blue, lampu RGB, dan build quality premium.",
+                gambar: "gambar/keyboard.jpg",
+                kategori: "Elektronik"
+            },
+            {
+                nama: "Paket Alat Tulis Lengkap",
+                harga: 75000,
+                deskripsi: "Set lengkap pulpen, pensil, penghapus, penggaris, dan spidol untuk kebutuhan sekolah.",
+                gambar: "gambar/alat-tulis.jpg",
+                kategori: "Alat Tulis"
+            },
+            {
+                nama: "Buku Administrasi Kantor",
+                harga: 42000,
+                deskripsi: "Buku administrasi format A4 dengan kolom lengkap untuk pencatatan kegiatan kantor.",
+                gambar: "gambar/buku-administrasi.jpg",
+                kategori: "Alat Tulis"
+            },
+            {
+                nama: "Meja Kantor Minimalis",
+                harga: 1250000,
+                deskripsi: "Meja kantor desain minimalis dengan lapisan anti gores dan laci penyimpanan.",
+                gambar: "gambar/meja-kantor.jpg",
+                kategori: "Furnitur"
+            },
+            {
+                nama: "Flashdisk USB 64GB",
+                harga: 85000,
+                deskripsi: "Flashdisk kapasitas 64GB dengan kecepatan baca/tulis tinggi dan desain elegan.",
+                gambar: "gambar/flashdisk.jpg",
+                kategori: "Elektronik"
+            }
+        ];
+
+        // ============================================
+        // VARIABEL GLOBAL - Menyimpan data produk
+        // dan state filter saat ini
+        // ============================================
+        let produkData = [];         // Array berisi semua data produk
+        let filterAktif = "Semua";   // Kategori yang sedang difilter
+        let searchAktif = "";        // Kata kunci pencarian saat ini
+
+        // ============================================
+        // FUNGSI FORMAT RUPIAH - Mengubah angka
+        // menjadi format "Rp 35.000"
+        // ============================================
+        function formatRupiah(angka) {
+            return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // ============================================
+        // FUNGSI LOAD PRODUK - Mengambil data dari
+        // database.json, fallback jika gagal
+        // ============================================
+        function loadProduk() {
+            fetch("dokumen/database.json")
+                .then(function(response) {
+                    // Cek apakah response berhasil
+                    if (!response.ok) throw new Error("File tidak ditemukan");
+                    return response.json();
+                })
+                .then(function(data) {
+                    // Berhasil: gunakan data dari JSON
+                    produkData = data;
+                    initProduk();
+                })
+                .catch(function() {
+                    // Gagal: gunakan data fallback
+                    console.log("database.json tidak ditemukan, menggunakan data fallback.");
+                    produkData = fallbackData;
+                    initProduk();
+                });
+        }
+
+        // ============================================
+        // FUNGSI INIT PRODUK - Membuat filter pills
+        // dan menampilkan produk pertama kali
+        // ============================================
+        function initProduk() {
+            // Ambil daftar kategori unik dari data
+            var kategoriList = ["Semua"];
+            produkData.forEach(function(item) {
+                // Jika kategori belum ada di daftar, tambahkan
+                if (kategoriList.indexOf(item.kategori) === -1) {
+                    kategoriList.push(item.kategori);
+                }
+            });
+
+            // Buat tombol filter untuk setiap kategori
+            var pillsContainer = document.getElementById("filterPills");
+            pillsContainer.innerHTML = "";
+            kategoriList.forEach(function(kat) {
+                var btn = document.createElement("button");
+                btn.className = "filter-pill" + (kat === "Semua" ? " active" : "");
+                btn.textContent = kat;
+                // Event klik untuk filter
+                btn.addEventListener("click", function() {
+                    filterAktif = kat;
+                    // Update tampilan tombol aktif
+                    document.querySelectorAll(".filter-pill").forEach(function(p) {
+                        p.classList.remove("active");
+                    });
+                    btn.classList.add("active");
+                    renderProduk();
+                });
+                pillsContainer.appendChild(btn);
+            });
+
+            // Tampilkan semua produk
+            renderProduk();
+        }
+
+        // ============================================
+        // FUNGSI RENDER PRODUK - Menampilkan kartu
+        // produk sesuai filter dan pencarian
+        // ============================================
+        function renderProduk() {
+            var grid = document.getElementById("produkGrid");
+            grid.innerHTML = "";
+
+            // Filter berdasarkan kategori dan pencarian
+            var hasil = produkData.filter(function(item) {
+                var cocokKategori = (filterAktif === "Semua") || (item.kategori === filterAktif);
+                var cocokSearch = item.nama.toLowerCase().indexOf(searchAktif.toLowerCase()) !== -1 ||
+                                  item.kategori.toLowerCase().indexOf(searchAktif.toLowerCase()) !== -1 ||
+                                  item.deskripsi.toLowerCase().indexOf(searchAktif.toLowerCase()) !== -1;
+                return cocokKategori && cocokSearch;
+            });
+
+            // Jika tidak ada hasil, tampilkan pesan kosong
+            if (hasil.length === 0) {
+                grid.innerHTML =
+                    '<div class="no-result">' +
+                        '<i class="fas fa-search"></i>' +
+                        '<p>Produk tidak ditemukan untuk pencarian "' + searchAktif + '"</p>' +
+                    '</div>';
+                return;
+            }
+
+            // Buat kartu untuk setiap produk
+            hasil.forEach(function(item, index) {
+                var card = document.createElement("div");
+                card.className = "produk-card reveal";
+
+                // Seed untuk gambar placeholder (berdasarkan nama produk)
+                var seed = item.nama.toLowerCase().replace(/\s+/g, "-");
+
+                card.innerHTML =
+                    '<span class="kategori-tag">' + item.kategori + '</span>' +
+                    '<div class="produk-img">' +
+                        '<img src="' + item.gambar + '" ' +
+                            'onerror="this.src=\'https://picsum.photos/seed/' + seed + '/400/300.jpg\'" ' +
+                            'alt="' + item.nama + '" loading="lazy">' +
+                    '</div>' +
+                    '<div class="produk-info">' +
+                        '<h3>' + item.nama + '</h3>' +
+                        '<p class="harga">' + formatRupiah(item.harga) + '</p>' +
+                        '<p class="deskripsi">' + item.deskripsi + '</p>' +
+                        '<button class="btn-beli" data-nama="' + item.nama + '">' +
+                            '<i class="fas fa-shopping-cart"></i> Beli Sekarang' +
+                        '</button>' +
+                    '</div>';
+
+                grid.appendChild(card);
+
+                // Animasi muncul bertahap (staggered)
+                setTimeout(function() {
+                    card.classList.add("revealed");
+                }, 80 * index);
+            });
+
+            // Tambahkan event listener ke semua tombol beli
+            document.querySelectorAll(".btn-beli").forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    var nama = this.getAttribute("data-nama");
+                    tampilkanToast(nama + " ditambahkan ke keranjang!");
+                });
+            });
+        }
+
+        // ============================================
+        // FUNGSI TOAST - Menampilkan pesan singkat
+        // di pojok kanan atas layar
+        // ============================================
+        function tampilkanToast(pesan) {
+            var container = document.getElementById("toastContainer");
+            var toast = document.createElement("div");
+            toast.className = "toast";
+            toast.innerHTML = '<i class="fas fa-check-circle"></i><span>' + pesan + '</span>';
+            container.appendChild(toast);
+
+            // Hapus toast setelah 3 detik
+            setTimeout(function() {
+                toast.classList.add("removing");
+                setTimeout(function() {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // ============================================
+        // EVENT: Pencarian realtime (dengan debounce)
+        // ============================================
+        var searchTimeout;
+        document.getElementById("searchInput").addEventListener("input", function() {
+            var value = this.value;
+            // Debounce 200ms agar tidak terlalu sering render
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                searchAktif = value.trim();
+                renderProduk();
+            }, 200);
+        });
+
+        // ============================================
+        // NAVBAR SCROLL EFFECT - Mengubah tampilan
+        // navbar saat halaman di-scroll
+        // ============================================
+        var navbar = document.getElementById("navbar");
+        var backToTop = document.getElementById("backToTop");
+
+        window.addEventListener("scroll", function() {
+            // Tambah class 'scrolled' jika sudah scroll > 50px
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+            // Tampilkan tombol back-to-top jika scroll > 400px
+            if (window.scrollY > 400) {
+                backToTop.classList.add("show");
+            } else {
+                backToTop.classList.remove("show");
+            }
+
+            // Update menu navigasi yang aktif berdasarkan posisi scroll
+            updateActiveNav();
+        });
+
+        // ============================================
+        // FUNGSI UPDATE ACTIVE NAV - Menandai menu
+        // yang sesuai dengan section yang terlihat
+        // ============================================
+        function updateActiveNav() {
+            var sections = document.querySelectorAll("section[id]");
+            var scrollPos = window.scrollY + 120;
+
+            sections.forEach(function(section) {
+                var top = section.offsetTop;
+                var height = section.offsetHeight;
+                var id = section.getAttribute("id");
+
+                if (scrollPos >= top && scrollPos < top + height) {
+                    // Hapus active dari semua menu
+                    document.querySelectorAll(".nav-menu a").forEach(function(a) {
+                        a.classList.remove("active");
+                    });
+                    // Tambahkan active ke menu yang sesuai
+                    var activeLink = document.querySelector('.nav-menu a[href="#' + id + '"]');
+                    if (activeLink) activeLink.classList.add("active");
+                }
+            });
+        }
+
+        // ============================================
+        // BACK TO TOP - Klik untuk scroll ke atas
+        // ============================================
+        document.getElementById("backToTop").addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // ============================================
+        // HAMBURGER MENU - Toggle menu mobile
+        // ============================================
+        var hamburger = document.getElementById("hamburger");
+        var navMenu = document.getElementById("navMenu");
+        var navOverlay = document.getElementById("navOverlay");
+
+        hamburger.addEventListener("click", function() {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("open");
+            navOverlay.classList.toggle("show");
+            // Mencegah scroll saat menu terbuka
+            document.body.style.overflow = navMenu.classList.contains("open") ? "hidden" : "";
+        });
+
+        // Tutup menu saat overlay diklik
+        navOverlay.addEventListener("click", function() {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("open");
+            navOverlay.classList.remove("show");
+            document.body.style.overflow = "";
+        });
+
+        // Tutup menu saat link diklik (mobile)
+        document.querySelectorAll(".nav-menu a").forEach(function(link) {
+            link.addEventListener("click", function() {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("open");
+                navOverlay.classList.remove("show");
+                document.body.style.overflow = "";
+            });
+        });
+
+        // ============================================
+        // SCROLL REVEAL - Animasi muncul saat
+        // elemen masuk viewport (IntersectionObserver)
+        // ============================================
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("revealed");
+                }
+            });
+        }, {
+            threshold: 0.1,    // Trigger saat 10% elemen terlihat
+            rootMargin: "0px 0px -40px 0px"
+        });
+
+        // Observasi semua elemen dengan class 'reveal'
+        document.querySelectorAll(".reveal").forEach(function(el) {
+            revealObserver.observe(el);
+        });
+
+        // ============================================
+        // MUSIC PLAYER - Toggle musik latar
+        // ============================================
+        var musicBtn = document.getElementById("musicBtn");
+        var bgMusic = document.getElementById("bgMusic");
+        var isMusicPlaying = false;
+
+        musicBtn.addEventListener("click", function() {
+            if (isMusicPlaying) {
+                // Jeda musik
+                bgMusic.pause();
+                musicBtn.classList.remove("playing");
+                musicBtn.querySelector("i").className = "fas fa-music";
+            } else {
+                // Putar musik, tangani error jika file tidak ada
+                var playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function() {
+                        // File musik tidak ditemukan, tampilkan pesan
+                        tampilkanToast("File musik tidak ditemukan di folder musik/");
+                    });
+                }
+                musicBtn.classList.add("playing");
+                musicBtn.querySelector("i").className = "fas fa-pause";
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // ============================================
+        // VIDEO FALLBACK - Tampilkan fallback jika
+        // video tidak bisa dimuat
+        // ============================================
+        var promoVideo = document.getElementById("promoVideo");
+        var videoFallback = document.getElementById("videoFallback");
+
+        promoVideo.addEventListener("error", function() {
+            promoVideo.style.display = "none";
+            videoFallback.style.display = "flex";
+        });
+        // Juga cek jika source tidak bisa dimuat
+        if (promoVideo.querySelector("source")) {
+            promoVideo.querySelector("source").addEventListener("error", function() {
+                promoVideo.style.display = "none";
+                videoFallback.style.display = "flex";
+            });
+        }
+
+        // ============================================
+        // LOADING SCREEN - Hilangkan setelah
+        // halaman selesai dimuat
+        // ============================================
+        window.addEventListener("load", function() {
+            // Minimal tampilkan loading 1.2 detik agar terlihat
+            setTimeout(function() {
+                document.getElementById("loadingOverlay").classList.add("hidden");
+            }, 1200);
+        });
+
+        // ============================================
+        // INISIALISASI - Muat data produk saat
+        // halaman pertama kali dibuka
+        // ============================================
+        loadProduk();
+    </script>
+</body>
+</html>
